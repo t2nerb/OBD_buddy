@@ -1,20 +1,19 @@
 ## OBD Buddy
 
-A travel companion blah blah blah
+A travel companion for you and your vehicle. Supplementary to an Arduino device
+that connects to your vehicle's OBD port. 
 
-### Setup
-1. Setup virtualenvironment in root directory
+#### Setup
+In order to run the software, you'll need to have Docker installed.
 
-	`$ virtualenv venv`
+##### Instructions
 
-2. Source the environment
+1. Build the image with the supplied script:
 
-	`$ source venv/bin/activate`
+	`$ ./build`
 
-3. Install dependencies
+2. Launch the container on a local port:
 
-        `$ pip3 install -r requirements.txt`
-    
-4. Run with
+	`$ docker run --rm --name OBD_buddy -it -p 80:80 OBD_buddy`
 
-	`$ python3 main.py`
+To kill the container, send a SIGINT (CTRL-C).
