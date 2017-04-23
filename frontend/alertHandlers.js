@@ -6,7 +6,7 @@ function checkForAlerts() {
 		method: "GET",
 		url: "http://45.55.19.184/receive"
 	}).done(function (data) {
-		for (var alert in results) {
+		for (var alert in data) {
 			processAlert(alert);
 		}
 	});
