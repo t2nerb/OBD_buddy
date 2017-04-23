@@ -72,6 +72,8 @@ def output():
     if gas_check_data != {}:
     	return_data.append(gas_check_data)
 
+    return_data.append(speed_check(rows))
+
     return jsonify(results=return_data)
 
 def gas_check(rows):
@@ -80,6 +82,21 @@ def gas_check(rows):
 			return {'type': 'lowgas', 'data': row[0]}
 
 	return {}
+
+def speed_check(rows):
+	sum = 0
+	counter = 0
+	for row in rows:
+		sum += row[2]
+		counter += 1
+
+	if sum == 0 or counter == 0:
+		return {'type': 'avgspeed', 'data': 0}
+
+	return {'type': 'avgspeed', 'data': sum/counter}
+
+
+
 
 # def gas_alert(gas_amount):
 #     """
