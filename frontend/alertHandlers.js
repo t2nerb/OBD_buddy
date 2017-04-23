@@ -4,7 +4,7 @@ function checkForAlerts() {
 	// hit server for alerts
 	$.ajax({
 		method: "GET",
-		url: "45.55.19.184/receive"
+		url: "http://45.55.19.184/receive"
 	}).done(function (data) {
 		for (var alert in results) {
 			processAlert(alert);
