@@ -1,13 +1,13 @@
 from app import app
 from flask import request, jsonify
+from flask_cors import CORS, cross_origin
 import sqlite3 as sql
 
-my_timestamp = (0)
 
 @app.route('/', methods  = ['GET'])
 def index():
     print('EXAMPLE')
-    return 'fuck yah'
+    return 'Yep'
 
 @app.route('/input', methods = ['GET'])
 def input():
@@ -38,6 +38,7 @@ def input():
     return 'SUCCESS'
 
 @app.route('/receive', methods = ['GET'])
+@cross_origin()
 def output():
     """
     Route for front-end to get data. Check if there should be any alerts
