@@ -10,10 +10,6 @@ window.onload = function () {
     setInterval(function() {
         getCurrentPosition(updateMarker);
     }, 15000);
-
-    setInterval(function() {
-        checkForAlerts();
-    }, 30000);
 }
 
 function main() {
@@ -23,6 +19,9 @@ function main() {
     },2000);
     initialMapRender(currentPos);
     //lowGasHandler(20);
+    setInterval(function() {
+        checkForAlerts();
+    }, 15000);
 
     // for arrow click
     $("#destination-submit").click(function() {
