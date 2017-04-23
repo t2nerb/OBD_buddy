@@ -2,18 +2,20 @@ activeAlerts = []
 
 function checkForAlerts() {
 	// hit server for alerts
-
-
-	// if alert is ready for us, process
-	for (var alert in results) {
-		processAlert(alert)
-	}
+	$.ajax({
+		method: "GET",
+		url: "45.55.19.184/receive"
+	}).done(function (data) {
+		for (var alert in results) {
+			processAlert(alert);
+		}
+	});
 }
 
 function processAlert(alert) {
 	// determine alert type
 	if (alert.type === "lowgas" && !isActiveAlert(alert.type)) {
-		lowGasHandler(alert.data);
+		lowGasHandler();
 		showAlert(alert);
 	}
 }
@@ -26,7 +28,7 @@ function isActiveAlert(alertType) {
 }
 
 var oldMarkers = []
-function lowGasHandler(percentage) {
+function lowGasHandler() {
 	// get geolocation and hit the search api for gas station
 	for (var i = 0; i < oldMarkers.length; i++) {
 		map.removeLayer(oldMarkers[i]);
