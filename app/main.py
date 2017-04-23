@@ -28,6 +28,7 @@ def input():
             dbEntry)
     conn.commit()
     conn.close()
+    return
 
 @app.route('/receive', methods = ['GET'])
 def output():
