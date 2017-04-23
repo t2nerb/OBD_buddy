@@ -14,7 +14,11 @@ window.onload = function () {
 
 function main() {
     $("#splash").addClass("slide-up");
+    setTimeout(function() {
+        $("#splash").addClass("remove");
+    },2000);
     initialMapRender(currentPos);
+    //lowGasHandler(20);
 
     // for arrow click
     $("#destination-submit").click(function() {
@@ -28,7 +32,6 @@ function main() {
            updateDirections(destination);
         }
     });
-    getCurrentPosition();
 }
 
 var prevmql;
