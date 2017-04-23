@@ -4,5 +4,6 @@ CREATE TABLE vehicle_data(
     speed           INT     NOT NULL,
     fuelrate        INT     NOT NULL,
     enginetemp      INT     NOT NULL,
+    checked			INT		DEFAULT 0,
     timestamp		DATETIME DEFAULT CURRENT_TIMESTAMP
 );

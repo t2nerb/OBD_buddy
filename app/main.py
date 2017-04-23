@@ -49,28 +49,46 @@ def output():
 
     conn = sql.connect('obdbuddy.db')
 
-    # query database for all times greater than my_timestamp
-    for row in conn.execute("SELECT * FROM vehicle_data ORDER BY timestamp DESC LIMIT 1;"):
+    # # query database for all times greater than my_timestamp
+    # for row in conn.execute("SELECT * FROM vehicle_data ORDER BY timestamp DESC LIMIT 1;"):
 
-        # Check for fuel level
-        if row[0] < 20:
-            return_data.append({'type': 'lowgas', 'data': row[0]})
+    #     # Check for fuel level
+    #     if row[0] < 20:
+    #         return_data.append({'type': 'lowgas', 'data': row[0]})
 
-        # Check for excessive speed
-        if row[2] > 170:
-            return_data.append({'speed': row[2]})
+    #     # Check for excessive speed
+    #     if row[2] > 170:
+    #         return_data.append({'speed': row[2]})
 
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM vehicle_data WHERE checked = 0 ORDER BY timestamp DESC;")
+    rows = cur.fetchall()
+    cur.execute("UPDATE vehicle_data SET checked = 1 WHERE checked = 1;")
+    conn.commit()
     conn.close()
+
+    gas_check_data = gas_check(rows)
+
+    if gas_check_data != {}:
+    	return_data.append(gas_check_data)
+
     return jsonify(results=return_data)
 
-def gas_alert(gas_amount):
-    """
-    If the gas amoutn falls below the 20% threshold, alert accordingly.
-    """
-    if gas_amount < 50:
-        return True
-    else:
-        return False
+def gas_check(rows):
+	for row in rows: 
+		if row[0] < 20:
+			return {'type': 'lowgas', 'data': row[0]}
+
+	return {}
+
+# def gas_alert(gas_amount):
+#     """
+#     If the gas amoutn falls below the 20% threshold, alert accordingly.
+#     """
+#     if gas_amount < 50:
+#         return True
+#     else:
+#         return False
 
 if __name__ == '__main__':
     app.run(debug=True)
