@@ -54,7 +54,7 @@ def output():
 
         # Check for fuel level
         if row[0] < 20:
-            return_data.append({'fuel': row[0]})
+            return_data.append({'ty[e': 'lowgas', 'data': row[0]})
 
         # Check for excessive speed
         if row[2] > 170:
