@@ -1,15 +1,20 @@
 // map will be the leaflet instance once initialMapRender is called in main()
 var map;
 // currentPos is in form [lat, long] w/ lat/long as floats
-var currentPos;
+var currentPos = [];
+//var fakeGeo = true;
 
 window.onload = function () {
     // callback to rest of code once current position is set
     //setTimeout(getCurrentPosition())
+    setTimeout(function() {
+        $(".splash-screen").addClass("shrink");
+    },0);
     getCurrentPosition(main);
     setInterval(function() {
         getCurrentPosition(updateMarker);
     }, 15000);
+
 }
 
 function main() {
@@ -21,7 +26,7 @@ function main() {
     //lowGasHandler(20);
     setInterval(function() {
         checkForAlerts();
-    }, 15000);
+    }, 5000);
 
     // for arrow click
     $("#destination-submit").click(function() {
@@ -38,13 +43,27 @@ function main() {
 }
 
 var prevmql;
-function updateDirections(destination) {
+var destinationStore;
+function updateDirections(destination, waypoint) {
     var dir = MQ.routing.directions();
-    dir.route({
-        locations: [
+    var location_list = [];
+    if (waypoint != null) {
+        console.log("fired");
+        location_list = [
+            { latLng: { lat: currentPos[0], lng: currentPos[1] } },
+            { latLng: { lat: waypoint[0], lng: waypoint[1] } },
+            destination
+        ]
+    }
+    else {
+        location_list = [
             { latLng: { lat: currentPos[0], lng: currentPos[1] } },
             destination
         ]
+    }
+    console.log(location_list);
+    dir.route({
+        locations: location_list
     });
     if (prevmql != null) {
         map.removeLayer(prevmql);
@@ -56,6 +75,7 @@ function updateDirections(destination) {
 
     map.addLayer(mql);
     prevmql = mql;
+    destinationStore = destination;
 }
 
 function getCurrentPosition(callback) {
@@ -94,7 +114,7 @@ function initialMapRender() {
 }
 
 function updateMarker() {
-    map.panTo(currentPos)
+    map.panTo(currentPos);
     map.removeLayer(prevMarker);
     var marker = L.circleMarker(currentPos, pathOptions).addTo(map);
     prevMarker = marker;

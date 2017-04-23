@@ -81,15 +81,65 @@ body {
         }
     }
 }
+#prompt-speed {
+    cursor: pointer;
+}
+@media screen and (min-width: 651px) {
+    .splash-screen {
+        font-size: 100px !important;
+    }
+    .shrink {
+        font-size: 70px !important;
+    }
+}
+@media screen and (max-width: 650px) {
+    .splash-screen {
+        font-size: 80px !important;
+    }
+    .shrink {
+        font-size: 50px !important;
+    }
+    .logo {
+        display: none;
+        background: #fff;
+        box-shadow: -2px 2px 4px rgba(0,0,0,0.2), -1px -1px 0px rgba(0,0,0,0.02);
+        left: 0;
+        top: 0;
+        margin-top: 54px;
+        font-size: 20px;
+        padding-left: 8px;
+        padding-top: 6px;
+        width: 115px;
+        height: 37px;
+        border-bottom-right-radius: 8px;
+    }
+    .search-container {
+        margin: 0px;
+        width: 100%;
 
+        .search-field {
+            width: calc(100% - 55px);
+            border-radius: 0px;
+        }
+        .search-arrow {
+            width: 55px;
+            border-radius: 0px;
+        }
+    }
+}
+.alert-card.activate {
+    transform: translateY(0px);
+}
 .alert-card {
     width: 100%;
     background: #fff;
-    box-shadow: $general-shadow;
+    box-shadow: 0px -1px 4px 0px rgba(0, 0, 0, 0.2);
     position: absolute;
     bottom: 0;
     z-index: 1005;
     color: #fff;
+    transform: translateY(204px);
+    transition: 0.6s ease;
 
     .red-alert {
         font-size: 30px;
@@ -148,7 +198,7 @@ body {
     will-change: transform;
     transition: 1s ease;
     font-family: $lobster;
-    font-size: 70px;
+    font-size: 120px;
     color: rgba(255,255,255,1);
     text-align: center;
     width: 100%;
@@ -157,7 +207,7 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 200;
+    z-index: 2000;
 
     // spinner from: http://tobiasahlin.com/spinkit/
     .spinner {
@@ -213,4 +263,50 @@ body {
         -webkit-transform: scaleY(1.0);
       }
     }
+}
+.mq-logo-control img {
+    margin-left: 160px;
+}
+.speedometer-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin-left: -105px;
+    margin-bottom: -105px;
+    width: 210px;
+    height: 210px;
+    border-radius: 50%;
+    background: rgba(44,62,80,0.5);
+}
+.speedometer {
+    box-shadow: $general-shadow;
+    width: 90px;
+    position: relative;
+    bottom: 0;
+    left: 0;
+    margin-left: 0px;
+    margin-top: -10px;
+    background: $primary;
+    transform-origin: left;
+    transform: rotate(0deg);
+    transition: 3s ease;
+    z-index: 1001;
+    color: #fff;
+    text-align: center;
+    font-size: 11px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+.speedometer::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-right: -19px;
+    width: 0;
+    height: 0;
+    z-index: 9999999;
+    margin-left: 30px;
+    border: 10px solid transparent;
+    border-left: 10px solid rgba(44,62,80,1);
 }
