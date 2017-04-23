@@ -2,30 +2,32 @@ activeAlerts = []
 
 function checkForAlerts() {
 	// hit server for alerts
-
-
-	// if alert is ready for us, process
-	for (var alert in results) {
-		processAlert(alert)
-	}
+	$.ajax({
+		method: "GET",
+		url: "45.55.19.184/receive"
+	}).done(function (data) {
+		for (var alert in results) {
+			processAlert(alert);
+		}
+	});	
 }
 
 function processAlert(alert) {
 	// determine alert type
 	if (alert.type === "lowgas" && !isActiveAlert(alert.type)) {
-		lowGasHandler(alert.data);
+		lowGasHandler();
 		showAlert(alert);
 	}
 }
 
-isActiveAlert(alertType) {
+function isActiveAlert(alertType) {
 	if (activeAlerts.indexOf(alertType) != -1) {
 		return true;
 	}
 	return false;
 }
 
-function lowGasHandler(percentage) {
+function lowGasHandler() {
 	// get geolocation and hit the search api for gas station
 
 	// Add new points to map
