@@ -63,7 +63,7 @@ def output():
     cur = conn.cursor()
     cur.execute("SELECT * FROM vehicle_data WHERE checked = 0 ORDER BY timestamp DESC;")
     rows = cur.fetchall()
-    cur.execute("UPDATE vehicle_data SET checked = 1 WHERE checked = 1;")
+    cur.execute("UPDATE vehicle_data SET checked = 1 WHERE checked = 0;")
     conn.commit()
     conn.close()
 
