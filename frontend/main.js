@@ -10,6 +10,10 @@ window.onload = function () {
     setInterval(function() {
         getCurrentPosition(updateMarker);
     }, 15000);
+
+    setInterval(function() {
+        checkForAlerts();
+    }, 30000);
 }
 
 function main() {
