@@ -27,6 +27,7 @@ def input():
 		dbEntry)
 	conn.commit()
 	conn.close()
+	return
 
 	
 
