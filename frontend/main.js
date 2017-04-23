@@ -5,34 +5,38 @@ var currentPos;
 
 window.onload = function () {
     // callback to rest of code once current position is set
+    //setTimeout(getCurrentPosition())
     getCurrentPosition(main);
+    setInterval(function() {
+        getCurrentPosition(updateMarker);
+    }, 15000);
 }
 
 function main() {
-
+    $("#splash").addClass("slide-up");
     initialMapRender(currentPos);
 
     // for arrow click
     $("#destination-submit").click(function() {
         var destination = $("#destination-input").val();
-        updateDirections(currentPos, destination);
+        updateDirections(destination);
     });
     // for enter key press
     $('#destination-input').on('keypress', function (e) {
         if(e.which === 13){
            var destination = $("#destination-input").val();
-           updateDirections(currentPos, destination);
+           updateDirections(destination);
         }
     });
+    getCurrentPosition();
 }
 
 var prevmql;
-function updateDirections(currPos, destination) {
-    console.log(currPos);
+function updateDirections(destination) {
     var dir = MQ.routing.directions();
     dir.route({
         locations: [
-            { latLng: { lat: currPos[0], lng: currPos[1] } },
+            { latLng: { lat: currentPos[0], lng: currentPos[1] } },
             destination
         ]
     });
@@ -49,10 +53,14 @@ function updateDirections(currPos, destination) {
 }
 
 function getCurrentPosition(callback) {
+    console.log("TEST");
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
             currentPos = [position.coords.latitude, position.coords.longitude]
-            callback();
+            console.log(currentPos);
+            if (callback != null) {
+                callback();
+            }
         });
     }
     else {
@@ -60,11 +68,28 @@ function getCurrentPosition(callback) {
     }
 }
 
-function initialMapRender(currPos) {
+var pathOptions = {
+    stroke: true,
+    color: "#2C3E50",
+    weight: 3,
+    opacity: 1,
+    fillColor: "#2C3E50",
+    fillOpacity: 0.8
+}
+var prevMarker;
+function initialMapRender() {
     map = L.map('map', {
         layers: MQ.mapLayer(),
-        center: currPos,
-        zoom: 8
+        center: currentPos,
+        zoom: 12
     });
-    var marker = L.circleMarker(currPos).addTo(map);
+    var marker = L.circleMarker(currentPos, pathOptions).addTo(map);
+    prevMarker = marker;
+}
+
+function updateMarker() {
+    map.panTo(currentPos)
+    map.removeLayer(prevMarker);
+    var marker = L.circleMarker(currentPos, pathOptions).addTo(map);
+    prevMarker = marker;
 }
