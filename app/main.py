@@ -47,7 +47,7 @@ def output():
 
     return_data = []
 
-    conn = sql.connect('obdbuddy.db')
+    conn = sql.connect('./obdbuddy.db')
 
     # # query database for all times greater than my_timestamp
     # for row in conn.execute("SELECT * FROM vehicle_data ORDER BY timestamp DESC LIMIT 1;"):
