@@ -6,15 +6,19 @@ function checkForAlerts() {
 		method: "GET",
 		url: "http://45.55.19.184/receive"
 	}).done(function (data) {
-		for (var alert in data) {
-			processAlert(alert);
+		//console.log(data['results'][0]);
+		for (var i = 0; i < data['results'].length; i++) {
+			//console.log("------");
+			console.log(data['results'][i]['data']);
+			processAlert(data['results'][i]);
 		}
 	});
 }
 
 function processAlert(alert) {
 	// determine alert type
-	if (alert.type === "lowgas" && !isActiveAlert(alert.type)) {
+	console.log(alert);
+	if (alert['type'] === "lowgas" && !isActiveAlert(alert['type'])) {
 		lowGasHandler();
 		showAlert(alert);
 	}
@@ -48,7 +52,7 @@ function lowGasHandler() {
 
 	// Add alert type to activeAlerts
 	activeAlerts.push("lowgas");
-	showAlert();
+	//showAlert();
 }
 //lowGasHandler(10);
 function showAlert(alert) {
