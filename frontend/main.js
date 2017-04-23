@@ -10,11 +10,19 @@ window.onload = function () {
     setInterval(function() {
         getCurrentPosition(updateMarker);
     }, 15000);
+
+    setInterval(function() {
+        checkForAlerts();
+    }, 30000);
 }
 
 function main() {
     $("#splash").addClass("slide-up");
+    setTimeout(function() {
+        $("#splash").addClass("remove");
+    },2000);
     initialMapRender(currentPos);
+    //lowGasHandler(20);
 
     // for arrow click
     $("#destination-submit").click(function() {
@@ -28,7 +36,6 @@ function main() {
            updateDirections(destination);
         }
     });
-    getCurrentPosition();
 }
 
 var prevmql;
