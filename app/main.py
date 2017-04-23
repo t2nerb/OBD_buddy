@@ -2,7 +2,7 @@ from app import app
 from flask import request, jsonify
 import sqlite3 as sql
 
-my_timestamp = 0
+my_timestamp = (0)
 
 @app.route('/', methods  = ['GET'])
 def index():
@@ -25,54 +25,50 @@ def input():
     enginetemp = enginetemp*(9/5) + 32
     """
 
-    dbEntry = (fuellevel, errno, speed, fuelrate, enginetemp) 
-    
+    dbEntry = (fuellevel, errno, speed, fuelrate, enginetemp)
+
     #db
-    conn = sql.connect('obdbuddy.db')
+    conn = sql.connect('./obdbuddy.db')
     cur = conn.cursor()
     cur.execute("INSERT INTO vehicle_data (fuellevel, errno, speed, fuelrate, enginetemp) VALUES (?,?,?,?,?);",
             dbEntry)
     conn.commit()
     conn.close()
 
-    return 'yas'
+    return 'SUCCESS'
 
 @app.route('/receive', methods = ['GET'])
 def output():
     """
-    Route for front-end to get data. Check if there should be any alerts 
+    Route for front-end to get data. Check if there should be any alerts
     and if so, indicate accordingly.
     """
-        
-    return_element = dict.fromkeys(['fuel', 'errno', 'speed', 'fuelrate', 'enginetemp'])
+
     return_data = []
-    my_timestamp = 0;
 
     conn = sql.connect('obdbuddy.db')
 
     # query database for all times greater than my_timestamp
-    for row in conn.execute('SELECT * FROM vehicle_data WHERE timestamp > ', \
-            my_timestamp, ' ORDER BY timestamp ASC'):
-        print(row)
-        """
-        return_element['fuel'] = row['fuel']
-        return_element['speed'] = row['speed']
-        return_element['fuelrate'] = row['fuelrate']
-        """
+    for row in conn.execute("SELECT * FROM vehicle_data ORDER BY timestamp DESC LIMIT 1;"):
 
-        my_timestamp = row['timestamp']
-        return_data.append(return_element)
+        # Check for fuel level
+        if row[0] < 20:
+            return_data.append({'fuel': row[0]})
+
+        # Check for excessive speed
+        if row[2] > 170:
+            return_data.append({'speed': row[2]})
 
     conn.close()
     return jsonify(results=return_data)
 
 def gas_alert(gas_amount):
-    """ 
+    """
     If the gas amoutn falls below the 20% threshold, alert accordingly.
     """
-    if gas_amount < 50: 
+    if gas_amount < 50:
         return True
-    else: 
+    else:
         return False
 
 if __name__ == '__main__':
