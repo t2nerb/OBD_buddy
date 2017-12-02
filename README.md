@@ -3,6 +3,10 @@
 A travel companion for you and your vehicle. Supplementary to an Arduino device
 that connects to your vehicle's OBD port. 
 
+![](./screenshots/mobile.jpg)
+
+![](./screenshots/desktop.jpg)
+
 #### Setup
 In order to run the software, you'll need to have Docker installed.
 
